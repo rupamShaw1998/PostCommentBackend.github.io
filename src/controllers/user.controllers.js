@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user.models");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const router = express.Router();
 
@@ -29,7 +30,8 @@ router.post("/login", async (req, res) => {
       return res.status(401).send("wrong password!");
     }
 
-    const accessToken = jwt.sign({_id: user._id.toString(), email: user.email}, "SecretTokenSecretTokenSecretToken");
+    const SECRET_KEY = process.env.SECRET_KEY;
+    const accessToken = jwt.sign({_id: user._id.toString(), email: user.email}, SECRET_KEY);
     return res.status(201).send({accessToken});
   } catch (err) {
       return res.status(500).send(err);
