@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
     }
 
     const SECRET_KEY = process.env.SECRET_KEY;
-    const accessToken = jwt.sign({_id: user._id.toString(), email: user.email}, SECRET_KEY);
+    const accessToken = jwt.sign({_id: user._id.toString(), email: user.email, name: user.name}, SECRET_KEY);
     return res.status(201).send({accessToken});
   } catch (err) {
       return res.status(500).send(err);

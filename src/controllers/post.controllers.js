@@ -18,7 +18,7 @@ router.post("/add", async (req, res) => {
 router.get("/get-posts", authTokenVerification, async (req, res) => {
   try {
     const posts = await Post.find().lean().exec();
-    return res.status(200).send(posts);
+    return res.status(200).send({user: req.user,posts});
   } catch (err) {
       return res.status(500).send(err);
   }
