@@ -24,4 +24,28 @@ router.get("/get-comments/:postId", authTokenVerification, async (req, res) => {
   }
 });
 
+router.patch("/update/:id", async (req, res) => {
+  try {
+    const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if(!updatedComment) {
+      return res.status(404).send("Comment not found");
+    }
+    return res.status(201).send(updatedComment);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
+router.delete("/remove/:id", async (req, res) => {
+  try {
+    const deletedComment = await Comment.findByIdAndDelete(req.params.id);
+    if(!deletedComment) {
+      return res.status(404).send("Comment not found");
+    }
+    return res.status(200).send("Comment deleted successfully");
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 module.exports = router;
